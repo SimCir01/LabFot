@@ -46,10 +46,11 @@ for i=1:8
 end
 lambda = dati(:,1); 
 
+
 % Acquisizione degli spettri di assorbimento
 figure 
 for i = 1:8
-    plot(lambda, A(:,i)) 
+    plot(lambda, A(:,i), 'LineWidth',1) 
     hold all
     xlabel('Wavelength [nm]')
     ylabel('Absorbance [A.U.]')
@@ -63,6 +64,21 @@ end
 % per ciascun valore di concentrazione
 M = max(A);
 
+%Calcolo della lambda di assorbimento, alla quale si ha il picco massimo
+Lambda_Amax = [];
+for i = 1:8
+    %indici del vettore A(:,i) dei picchi cui trovare picco max M
+    index_lambda_Amax = find(A(:,i)==M(i));   
+    %valori di lambda relativi a tale indice per la concentrazione i-esima
+    lambda_Amax_tot = lambda(index_lambda_Amax);
+    %media di questi valori
+    lambda_Amax_tot = mean(lambda_Amax_tot);
+    %aggiunta al vettore che memmorizza il valore medio
+    Lambda_Amax(end + 1) = lambda_Amax_tot;
+end
+%media tra i valori medi di lamda relativi a ciascuna concentrazione
+%cioè valore medio di lambda
+LAMBDA_Amax = mean(Lambda_Amax);
 
 %%% ELABORAZIONE DELLA RETTA DI CALIBRAZIONE %%%
 
@@ -79,7 +95,7 @@ M_sc = M(1:7);
 
 %inizio calibrazione
 figure
-plot(C, M_sc, 'ok')
+plot(C, M_sc, 'ok','LineWidth',1) 
 xlabel('Concentrazione [\mug ml]')
 ylabel('Absorbance [A.U.]')
 title('Retta di calibrazione della Doxorubicina: VIS (330-660 nm)')
@@ -87,7 +103,7 @@ p = polyfit(C, M_sc, 1);
 x2=[0:0.1:80];
 y2=polyval(p, x2);
 hold on
-plot(x2, y2, 'k')
+plot(x2, y2, 'k', 'LineWidth',1) 
 %fine calibrazione
 
 %%% CALCOLO DELLA CONCENTRAZIONE DEL CAMPIONE %%%
@@ -104,8 +120,8 @@ q = p(2);
 
 % valore di concentrazione del campione della scena del crimine
 x_lin = (M(8)-q)/m;
-plot(x_lin, M(8), 'or');
-plot(x_atteso, M(8), '*r')
+plot(x_lin, M(8), 'or','LineWidth', 1);
+plot(x_atteso, M(8), '*r','LineWidth',1);
 legend('Punti sperimentali', 'Linear', ...
     'Incognita con calibrazione lineare', 'Incognita Attesa')
 grid on
@@ -137,7 +153,7 @@ lambda = dati(:,1);
 % Acquisizione degli spettri di assorbimento
 figure 
 for i = 1:8
-    plot(lambda, A(:,i)) 
+    plot(lambda, A(:,i),'LineWidth',1)  
     hold all
     xlabel('Wavelength [nm]')
     ylabel('Absorbance [A.U.]')
@@ -167,7 +183,7 @@ M_sc = M(1:7);
 
 %inizio calibrazione
 figure
-plot(C, M_sc, 'ok')
+plot(C, M_sc, 'ok','LineWidth',1) 
 xlabel('Concentrazione [\mug ml]')
 ylabel('Absorbance [A.U.]')
 title('Retta di calibrazione della Doxorubicina: UV-VIS (190-850 nm)')
@@ -175,7 +191,7 @@ p = polyfit(C, M_sc, 1);
 x2=[0:0.1:80];
 y2=polyval(p, x2);
 hold on
-plot(x2, y2, 'k')
+plot(x2, y2, 'k','LineWidth',1) 
 %fine calibrazione
 
 %%% CALCOLO DELLA CONCENTRAZIONE DEL CAMPIONE %%%
@@ -192,8 +208,8 @@ q = p(2);
 
 % valore di concentrazione del campione della scena del crimine
 x_lin = (M(8)-q)/m;
-plot(x_lin, M(8), 'or');
-plot(x_atteso, M(8), '*r')
+plot(x_lin, M(8), 'or','LineWidth',1) ;
+plot(x_atteso, M(8), '*r','LineWidth',1) 
 legend('Punti sperimentali', 'Linear', ...
     'Incognita con calibrazione lineare', 'Incognita Attesa')
 grid on
@@ -224,7 +240,7 @@ lambda = dati(:,1);
 % Acquisizione degli spettri di assorbimento
 figure 
 for i = 1:8
-    plot(lambda, A(:,i)) 
+    plot(lambda, A(:,i), 'LineWidth',1)  
     hold all
     xlabel('Wavelength [nm]')
     ylabel('Absorbance [A.U.]')
@@ -254,7 +270,7 @@ M_sc = M(1:7);
 
 %inizio calibrazione
 figure
-plot(C, M_sc, 'ok')
+plot(C, M_sc, 'ok', 'LineWidth',1) 
 xlabel('Concentrazione [\mug ml]')
 ylabel('Absorbance [A.U.]')
 title('Retta di calibrazione della Doxorubicina: UV (216-293 nm)')
@@ -262,7 +278,7 @@ p = polyfit(C, M_sc, 1);
 x2=[0:0.1:80];
 y2=polyval(p, x2);
 hold on
-plot(x2, y2, 'k')
+plot(x2, y2, 'k', 'LineWidth',1) 
 %fine calibrazione
 
 %%% CALCOLO DELLA CONCENTRAZIONE DEL CAMPIONE %%%
@@ -279,8 +295,8 @@ q = p(2);
 
 % valore di concentrazione del campione della scena del crimine
 x_lin = (M(8)-q)/m;
-plot(x_lin, M(8), 'or');
-plot(x_atteso, M(8), '*r')
+plot(x_lin, M(8), 'or', 'LineWidth',1) ;
+plot(x_atteso, M(8), '*r', 'LineWidth',1);
 legend('Punti sperimentali', 'Linear', ...
     'Incognita con calibrazione lineare', 'Incognita Attesa')
 grid on
@@ -309,31 +325,31 @@ Y3 = P(1,3)*x+P(2,3);                   % retta di calibrazione UV
 
 % Plot della retta di calibrazione VIS
 
-p1_lin = plot(X_lin(1), MAX(1), 'ob');
+p1_lin = plot(X_lin(1), MAX(1), 'ob', 'LineWidth',1) ;
 hold on
 %plot(X_atteso(1), MAX(1), '*b');
 hold on
-p1 = plot(x, Y1, '-b');
+p1 = plot(x, Y1, '-b', 'LineWidth',1) ;
 hold on
 
 
 % Plot della retta di calibrazione UV-VIS
 
-p2_lin = plot(X_lin(2), MAX(2), 'om');
+p2_lin = plot(X_lin(2), MAX(2), 'om', 'LineWidth',1) ;
 hold on
 %plot(X_atteso(2), MAX(2), '*m');
 hold on
-p2 = plot(x, Y2, '-m');
+p2 = plot(x, Y2, '-m', 'LineWidth',1) ;
 hold on
 
 
 % Plot della retta di calibrazione UV
 
-p3_lin = plot(X_lin(3), MAX(3), 'og');
+p3_lin = plot(X_lin(3), MAX(3), 'og', 'LineWidth',1) ;
 hold on
 %plot(X_atteso(3), MAX(3), '*g');
 hold on
-p3 = plot(x, Y3, '-g');
+p3 = plot(x, Y3, '-g', 'LineWidth',1) ;
 
 
 h = [p1;p2;p3;p1_lin;p2_lin;p3_lin];
@@ -342,4 +358,3 @@ s_X_lin2 = sprintf('Concentrazione incognita: %.2f', X_lin(2));
 s_X_lin3 = sprintf('Concentrazione incognita: %.2f', X_lin(3));
 legend(h, 'VIS','UV-VIS', 'UV', s_X_lin1, s_X_lin2, s_X_lin3)
 title('Rette di calibrazione')
-
